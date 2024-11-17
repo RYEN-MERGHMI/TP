@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Recipe List</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="isOpen = true" color="primary">
+        <ion-icon name="add-circle"></ion-icon> Ajouter
+      </ion-button>
+      <ion-button (click)="isOpen = false" color="danger" *ngIf="isOpen">
+        <ion-icon name="backspace"></ion-icon> Annuler
+      </ion-button>
+      <ion-button (click)="deleteSelectedRecipes()" color="danger" [disabled]="selectedRecipes.size === 0">
+        <ion-icon name="trash"></ion-icon> Supprimer
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let r of listeR" [routerLink]="['/recettes', r.id]">
+     <!-- <ion-checkbox slot="start" [checked]="selectedRecipes.has(r.id)" (ionChange)="toggleSelection(r.id)">
+      </ion-checkbox>-->
+      <ion-avatar>
+        <ion-img [src]="r.imageUrl"></ion-img>
+      </ion-avatar>
+      <ion-label>{{ r.Title }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<!-- 
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let r of listeR">
+        <ion-card (click)="navigateToDetail(r.id)">
+          <ion-item lines="none">
+            <ion-checkbox slot="start" [checked]="selectedRecipes.has(r.id)" (ionChange)="toggleSelection(r.id)">
+            </ion-checkbox>
+            <ion-avatar slot="start">
+              <ion-img [src]="r.imageUrl"></ion-img>
+            </ion-avatar>
+          </ion-item>
+          <ion-card-header>
+            <ion-card-title>{{ r.Title }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ r.ingredients.join(', ') }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+-->
+
+<!-- Toggleable Footer Form for Adding New Recipes -->
+<ion-footer *ngIf="isOpen">
+  <ion-item>
+    <ion-input [(ngModel)]="newRecipe.Title" placeholder="Title" required></ion-input>
+    <ion-input [(ngModel)]="newRecipe.imageUrl" placeholder="Image URL" required></ion-input>
+    <ion-input [(ngModel)]="newRecipe.ingredients" placeholder="Ingredients (comma-separated)" required></ion-input>
+    <ion-button (click)="addNewRecipe()" shape="round" color="primary">
+      <ion-icon name="add"></ion-icon> Ajouter
+    </ion-button>
+  </ion-item>
+</ion-footer>
